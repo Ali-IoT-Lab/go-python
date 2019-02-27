@@ -1,0 +1,3 @@
+﻿
+
+1,https://www.python.org/ 下载win10 python3安装包 配置vscode
