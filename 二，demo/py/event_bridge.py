@@ -6,10 +6,10 @@ url = 'http://47.97.210.118/push_event'
 payload = {'some': 'data'}
 headers = {'content-type': 'application/json'}
 
-auth = {'Authorization': 'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpYXQiOjE1NTEzMjMxNTUsImV4cCI6MTg2NjY4MzE1NSwiaXNzIjoiN2EyNjI2YzE0ZWYwNDgzZjk4ZmM4MDkzNDExMjFkODIifQ.zJ8a9W9rkYoIjQPM822tVB8aeGZ39FviBL8Iz7Mxys4'}
+auth = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NTE0MjA0NzIsImV4cCI6MTg2Njc4MDQ3MiwiaXNzIjoiMDhiYzQ0YzYzMDQ4NGMyOTg4MzIzMWFkZjRkMmY2ZTMifQ.A6cbNYwsqqXFFrG83jebJ1LzQ8VZBs8JiytoLolZb70'}
 
-def setup():
-    messages = SSEClient('http://192.168.31.95:8123/api/stream', headers=auth)
+def setup(hass, config):
+    messages = SSEClient('http://192.168.31.94:8123/api/stream', headers=auth)
 
     for msg in messages:
        outputMsg = msg.data
