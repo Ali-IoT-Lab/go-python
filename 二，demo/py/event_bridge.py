@@ -7,10 +7,10 @@ payload = {'some': 'data'}
 headers = {'content-type': 'application/json'}
 
 auth = {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpYXQiOjE1NTE0MjA0NzIsImV4cCI6MTg2Njc4MDQ3MiwiaXNzIjoiMDhiYzQ0YzYzMDQ4NGMyOTg4MzIzMWFkZjRkMmY2ZTMifQ.A6cbNYwsqqXFFrG83jebJ1LzQ8VZBs8JiytoLolZb70'}
-
-def setup():
-    messages = SSEClient('http://192.168.31.94:8123/api/stream', headers=auth)
-
+messages = SSEClient('http://192.168.31.94:8123/api/stream', headers=auth)
+def setup(hass, config):
+    a = hass
+    b = config
     for msg in messages:
        outputMsg = msg.data
        #print(outputMsg)
@@ -24,7 +24,7 @@ def setup():
       
 
 #if __name__ == '__main__':
-#    setup()
+#    setup('1','2')
 
 
 
