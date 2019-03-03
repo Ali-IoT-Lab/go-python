@@ -17,5 +17,5 @@ def setup(hass, config):
         requests.post(config.resource, data=json.dumps({'some': 'data'}), headers=headers)
 
     # Listen for when state_changed is fired
-    hass.bus.listen('s11tate_changed', handle_event)
+    hass.bus.listen('state_changed', handle_event)
     return True
