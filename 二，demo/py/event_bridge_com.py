@@ -5,7 +5,7 @@ import json
 server_url = 'http://47.97.210.118/push_event'
 headers = {'content-type': 'application/json'}
 
-def setup(hass, config):
+def setup(hass, config=None):
     """Set up is called when Home Assistant is loading our component."""
     count = 0
 
@@ -18,4 +18,4 @@ def setup(hass, config):
         requests.post(server_url, data=json.dumps(new_state), headers=headers)
 
     # Listen for when my_cool_event is fired
-    hass.bus.listen('state_changed', handle_event)
+    return hass.bus.async_listen('state_changed', handle_event)
