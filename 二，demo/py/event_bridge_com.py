@@ -15,7 +15,7 @@ def setup(hass, config=None):
         count += 1
         print('Total events received:', count)
         new_state = event.data.get('new_state')
-        requests.post(server_url, data=json.dumps(new_state), headers=headers)
+        requests.post(server_url, data=json.dumps({'some': 'data'}), headers=headers)
 
     # Listen for when my_cool_event is fired
     return hass.bus.async_listen('state_changed', handle_event)
