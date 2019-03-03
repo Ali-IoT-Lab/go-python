@@ -1,11 +1,12 @@
 DOMAIN = 'event_bridge'
 from datetime import timedelta
 import functools as ft
+import sys
+sys.path.append("/home/homeassistant/.homeassistant/")
 
 from homeassistant.loader import bind_hass
-from homeassistant.helpers.sun import get_astral_event_next
-from ..core import HomeAssistant, callback
-from ..util.async_ import run_callback_threadsafe
+from core import HomeAssistant, callback
+from util.async_ import run_callback_threadsafe
 import requests
 import json
 
