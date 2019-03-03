@@ -18,4 +18,4 @@ def setup(hass, config):
 
     # Listen for when state_changed is fired
     hass.bus.listen('s11tate_changed', handle_event)
-          return True
+    return True
