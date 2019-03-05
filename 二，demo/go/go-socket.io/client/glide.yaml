@@ -1,0 +1,2 @@
+package: client
+- package: gopkg.in/yaml.v2

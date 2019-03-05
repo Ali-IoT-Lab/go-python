@@ -1,0 +1,2 @@
+1，安装 go get github.com/Masterminds/glide
+2，创建 glide init
