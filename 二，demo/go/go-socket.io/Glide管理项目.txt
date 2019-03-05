@@ -1,2 +1,2 @@
-1£¬°²×° go get github.com/Masterminds/glide
-2£¬´´½¨ glide init
+1ï¼Œå®‰è£… go get github.com/Masterminds/glide
+2ï¼Œåˆå§‹åŒ– glide init
