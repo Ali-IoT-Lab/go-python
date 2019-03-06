@@ -1,2 +1,2 @@
-1，安装 go get github.com/Masterminds/glide
+1，安装 win10: go get github.com/Masterminds/glide   mac:brew install glide 
 2，初始化 glide init
