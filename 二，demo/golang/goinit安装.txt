@@ -1,0 +1,25 @@
+进命令行，设置代理到ss
+set http_proxy=http://127.0.0.1:1080
+set https_proxy=https://127.0.0.1:1080
+
+mkdir -p $GOPATH/src/golang.org/x
+cd $GOPATH/src/golang.org/x
+git clone https://github.com/golang/tools.git
+
+Cloning into 'tools'...
+remote: Counting objects: 19439, done.
+remote: Compressing objects: 100% (5/5), done.
+remote: Total 19439 (delta 0), reused 2 (delta 0), pack-reused 19434
+Receiving objects: 100% (19439/19439), 7.95 MiB | 1.44 MiB/s, done.
+Resolving deltas: 100% (13885/13885), done.
+
+git clone https://github.com/golang/lint.git
+
+Cloning into 'lint'...
+remote: Counting objects: 712, done.
+remote: Compressing objects: 100% (9/9), done.
+remote: Total 712 (delta 7), reused 11 (delta 7), pack-reused 696
+Receiving objects: 100% (712/712), 325.68 KiB | 1.54 MiB/s, done.
+Resolving deltas: 100% (416/416), done.
+完成以上步骤后，执行
+go get golang.org/x/lint/golint
