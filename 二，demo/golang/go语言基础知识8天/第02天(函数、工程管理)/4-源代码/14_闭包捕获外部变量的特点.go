@@ -5,7 +5,7 @@ import "fmt"
 func main() {
 	a := 10
 	str := "mike"
-
+	fmt.Printf("外部1：a = %d, str = %s\n", a, str)
 	func() {
 		//闭包以引用方式捕获外部变量
 		a = 666
@@ -13,6 +13,6 @@ func main() {
 		fmt.Printf("内部：a = %d, str = %s\n", a, str)
 	}() //()代表直接调用
 
-	fmt.Printf("外部：a = %d, str = %s\n", a, str)
+	fmt.Printf("外部2：a = %d, str = %s\n", a, str)
 
 }

@@ -23,6 +23,9 @@ func Mul(a, b int) int {
 //现有想法，后面再实现功能
 func Calc(a, b int, fTest FuncType) (result int) {
 	fmt.Println("Calc")
+
+	fmt.Println(result)
+
 	result = fTest(a, b) //这个函数还没有实现
 	//result = Add(a, b) //Add()必须先定义后，才能调用
 	return
