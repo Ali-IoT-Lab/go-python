@@ -2,7 +2,6 @@ DOMAIN = 'event_bridge'
 
 import requests
 import json
-import traceback
 import homeassistant.helpers.config_validation as cv
 
 server_url = 'http://47.97.210.118/push_event'
