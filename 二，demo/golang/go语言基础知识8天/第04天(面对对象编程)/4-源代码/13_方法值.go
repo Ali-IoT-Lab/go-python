@@ -3,30 +3,33 @@ package main
 import "fmt"
 
 type Person struct {
-	name string //名字
-	sex  byte   //性别, 字符类型
-	age  int    //年龄
+	name string
+	sex  byte
+	age  int
 }
 
-func (p Person) SetInfoValue() {
-	fmt.Printf("SetInfoValue: %p, %v\n", &p, p)
-}
-
+//指针作为接收者，引用语义
 func (p *Person) SetInfoPointer() {
-	fmt.Printf("SetInfoPointer: %p, %v\n", p, p)
+	(*p).name = "yoyo"
+	(*p).sex = 'f'
+	(*p).age = 22
+	fmt.Println("SetInfoPointer: 	(*p) = ", (*p))
+}
+
+//值作为接收者，值语义
+func (p Person) SetInfoValue() {
+	p.name = "xxx"
+	p.sex = 'm'
+	p.age = 33
+
+	fmt.Println("SetInfoValue: p = ", p)
 }
 
 func main() {
-	p := Person{"mike", 'm', 18}
-	fmt.Printf("main: %p, %v\n", &p, p)
+	//p 为指针类型
+	var p *Person = &Person{"mike", 'm', 18}
+	p.SetInfoPointer() //func (p) SetInfoPointer()
 
-	p.SetInfoPointer() //传统调用方式
-
-	//保存方式入口地址
-	pFunc := p.SetInfoPointer //这个就是方法值，调用函数时，无需再传递接收者，隐藏了接收者
-	pFunc()                   //等价于 p.SetInfoPointer()
-
-	vFunc := p.SetInfoValue
-	vFunc() //等价于 p.SetInfoValue()
-
+	p.SetInfoValue()    //func (*p) SetInfoValue()
+	(*p).SetInfoValue() //func (*p) SetInfoValue()
 }
