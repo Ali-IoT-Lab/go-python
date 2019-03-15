@@ -4,10 +4,7 @@ import "fmt"
 
 func main() {
 	//赋值，赋值前，必须先声明变量
-	var a int
-	a = 10 //赋值，可以使用n次
-	a = 20
-	a = 30
+	var a string
 	fmt.Println("a = ", a)
 
 	//:=, 自动推导类型，先声明变量b，再给b赋值为20

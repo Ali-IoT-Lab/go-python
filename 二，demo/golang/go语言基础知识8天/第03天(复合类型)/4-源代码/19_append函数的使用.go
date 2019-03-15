@@ -4,6 +4,7 @@ import "fmt"
 
 func main() {
 	s1 := []int{}
+
 	fmt.Printf("len = %d, cap = %d\n", len(s1), cap(s1))
 	fmt.Println("s1 = ", s1)
 

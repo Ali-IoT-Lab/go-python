@@ -7,13 +7,15 @@ func main() {
 
 	//新切片
 	s1 := a[2:5] //从a[2]开始，取3个元素
+	fmt.Printf("s1=%p,cap=%d,len = %d %T \n", &s1, cap(s1), len(s1), s1)
+	fmt.Printf("a=%p,cap=%d,len = %d %T\n", &a, cap(a), len(a), a)
 	s1[1] = 666
-	fmt.Println("s1 = ", s1)
-	fmt.Println("a = ", a)
 
-	//另外新切片
-	s2 := s1[2:7]
-	s2[2] = 777
-	fmt.Println("s2 = ", s2)
-	fmt.Println("a = ", a)
+	for i := 0; i < 1000000; i++ {
+		a = append(a, 888)
+		s1 = append(s1, 888)
+	}
+
+	fmt.Printf("s1=%p,cap=%d,len = %d %T \n", &s1, cap(s1), len(s1), s1)
+	fmt.Printf("a=%p,cap=%d,len = %d %T\n", &a, cap(a), len(a), a)
 }

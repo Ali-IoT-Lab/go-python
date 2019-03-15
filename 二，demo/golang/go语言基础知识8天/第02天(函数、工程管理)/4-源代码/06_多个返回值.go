@@ -4,12 +4,12 @@ import "fmt"
 
 //多个返回值
 func myfunc01() (int, int, int) {
-	return 1, 2, 3
+	return 0, 0, 1
 }
 
 //go官方推荐写法
-func myfunc02() (a int, b int, c int) {
-	a, b, c = 111, 222, 333
+func myfunc02() (a int, b int, d int) {
+	a, b, d = 111, 222, 333
 	return
 }
 

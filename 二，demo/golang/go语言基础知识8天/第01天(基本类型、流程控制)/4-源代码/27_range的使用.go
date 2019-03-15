@@ -21,7 +21,7 @@ func main() {
 	}
 
 	for i, _ := range str { //第2个返回值，默认丢弃，返回元素的位置(下标)
-		fmt.Printf("str[%d]=%c\n", i, str[i])
+		fmt.Printf("str[%d]=%c,%s\n", i, str[i], _)
 	}
 
 }

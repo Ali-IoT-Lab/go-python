@@ -8,7 +8,7 @@ func MyFunc01(a int, b int) { //固定参数
 
 //...int类型这样的类型， ...type不定参数类型
 //注意：不定参数，一定（只能）放在形参中的最后一个参数
-func MyFunc02(args ...int) { //传递的实参可以是0或多个
+func MyFunc02(b string, args ...int) { //传递的实参可以是0或多个
 	fmt.Println("len(args) = ", len(args)) //获取用户传递参数的个数
 	for i := 0; i < len(args); i++ {
 		fmt.Printf("args[%d] = %d\n", i, args[i])
