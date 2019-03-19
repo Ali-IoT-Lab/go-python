@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	//n := runtime.GOMAXPROCS(1) //指定以1核运算
-	n := runtime.GOMAXPROCS(4) //指定以4核运算
+	n := runtime.GOMAXPROCS() //指定以1核运算
+	//n := runtime.GOMAXPROCS(4) //指定以4核运算
 	fmt.Println("n = ", n)
 
 	for {

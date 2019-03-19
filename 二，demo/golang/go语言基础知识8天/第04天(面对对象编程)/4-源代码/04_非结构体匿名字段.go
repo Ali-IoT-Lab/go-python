@@ -13,16 +13,17 @@ type Person struct {
 type Student struct {
 	Person //结构体匿名字段
 	int    //基础类型的匿名字段
+	string
+	string
 	mystr
 }
 
 func main() {
-	s := Student{Person{"mike", 'm', 18}, 666, "hehehe"}
+	s := Student{Person{"mike", 'm', 18}, 666, "11111", "hehehe"}
 	fmt.Printf("s = %+v\n", s)
 
 	s.Person = Person{"go", 'm', 22}
 
-	fmt.Println(s.name, s.age, s.sex, s.int, s.mystr)
-	fmt.Println(s.Person, s.int, s.mystr)
+	fmt.Println(s.name, s.age, s.sex, s.int, s.string, s.mystr)
 
 }

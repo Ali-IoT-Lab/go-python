@@ -2,14 +2,13 @@ package main
 
 import (
 	"fmt"
-	"runtime"
 )
 
 func test() {
 	defer fmt.Println("ccccccccccccc")
 
-	//return //终止此函数
-	runtime.Goexit() //终止所在的协程
+	return //终止此函数
+	//runtime.Goexit() //终止所在的协程
 
 	fmt.Println("dddddddddddddddddddddd")
 }

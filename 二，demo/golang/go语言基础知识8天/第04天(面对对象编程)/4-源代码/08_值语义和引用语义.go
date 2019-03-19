@@ -33,10 +33,11 @@ func main() {
 	fmt.Printf("&s1 = %p\n", &s1) //打印地址
 
 	//值语义
-	//	s1.SetInfoValue("mike", 'm', 18)
-	//	fmt.Println("s1 = ", s1) //打印内容
+	// s1.SetInfoValue("mike", 'm', 18)
+	// fmt.Println("s1 = ", s1) //打印内容
 
 	//引用语义
 	(&s1).SetInfoPointer("mike", 'm', 18)
-	fmt.Println("s1 = ", s1) //打印内容
+	fmt.Println("s1 = ", s1)         //打印内容
+	fmt.Printf("&s1hou = %p\n", &s1) //打印地址
 }
