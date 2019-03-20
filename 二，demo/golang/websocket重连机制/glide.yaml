@@ -1,0 +1,5 @@
+package: longsocket
+import:
+- package: golang.org/x/net
+  subpackages:
+  - websocket
