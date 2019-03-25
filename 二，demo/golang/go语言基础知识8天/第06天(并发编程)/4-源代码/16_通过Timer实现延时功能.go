@@ -6,8 +6,8 @@ import (
 )
 
 func main() {
-	<-time.After(2 * time.Second) //定时2s，阻塞2s, 2s后产生一个事件，往channel写内容
-	fmt.Println("时间到")
+	<-time.After(time.Second * time.Duration(5)) //定时2s，阻塞2s, 2s后产生一个事件，往channel写内容
+	fmt.Println("时间到123123")
 }
 
 func main02() {

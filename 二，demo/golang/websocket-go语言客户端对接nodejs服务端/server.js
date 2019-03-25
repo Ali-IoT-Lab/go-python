@@ -11,63 +11,14 @@ function handler (req, res) {
   res.writeHead(200)
   res.end('Testing server for http://github.com/wedeploy/gosocketio example.')
 }
-
-let vehicles = ['Falcon', 'airplane', 'balloon', 'drone']
-let airports = ['JFK', 'KEF', 'ATL', 'MIA', 'DAO', 'FCO']
-let people = ['Stephen', 'Albert', 'Thomas', 'George', 'Michael', 'Linus']
-let rooms = ['King', 'Queen', 'Presidential suite']
-
-class AirNotices {
-  getStatusFunc (socket) {
-    return () => this.getStatus(socket)
-  }
-
-  getStatus (socket) {
-    let vehicle = vehicles[Math.floor(Math.random() * vehicles.length)]
-    let index1 = Math.floor(Math.random() * airports.length)
-    let index2 = Math.floor(Math.random() * airports.length)
-
-    if (index1 === index2) {
-      socket.emit('skip', vehicle)
-      return
-    }
-
-    socket.emit('flight', vehicle, {
-      From: airports[index1],
-      To: airports[index2]
-    })
-  }
-}
-
-let an = new AirNotices()
-
 io.on('connection', function (socket) {
   console.log('Connecting %s.', socket.id)
 
-  let anInterval = setInterval(an.getStatusFunc(socket), 2500)
-
-  let scheduledGoodbyeTimeout = setTimeout(function () {
-    console.log('Sending goodbye message to client.')
-    socket.emit('goodbye')
-  }, 120000)
-
-  socket.on('book_hotel_for_tonight', (location, fn) => {
+  socket.on('messgae', (location) => {
     // fail booking 50% of the requests
-    if (Math.random() > 0.5) {
-      console.error('Failing to book a room at %s', location)
-      return
-    }
-
-    console.log('Hotel room booked at %s Airport Hotel.', location)
-    let indexPerson = Math.floor(Math.random() * people.length)
-    let indexRoom = Math.floor(Math.random() * rooms.length)
-
-    fn({
-      Name: people[indexPerson],
-      Location: location,
-      Room: rooms[indexRoom],
-      Price: Math.ceil(Math.random() * 1000)
-    })
+    console.log('locationlocationlocationlocationlocationlocationlocation')
+    console.log(location)
+    socket.emit("data",{id:1,"Channel":"sadad","Text":"dsadacvmas"})
   })
 
   socket.on('find_tickets', (route) => {
@@ -80,7 +31,5 @@ io.on('connection', function (socket) {
 
   socket.on('disconnect', () => {
     console.log('Disconnecting %s.', socket.id)
-    clearInterval(anInterval)
-    clearInterval(scheduledGoodbyeTimeout)
   })
 })
