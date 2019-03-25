@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log"
 	"runtime"
 	"time"
@@ -26,13 +25,8 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	t := time.Now()
-	fmt.Printf("当前的时间是: %d-%d-%d %d:%d:%d\n", t.Year(),
-		t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second())
+
 	err = c.On(gosocketio.OnDisconnection, func(h *gosocketio.Channel) {
-		t := time.Now()
-		fmt.Printf("当前的时间是: %d-%d-%d %d:%d:%d\n", t.Year(),
-			t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second())
 		log.Fatal("Disconnected")
 	})
 	if err != nil {
@@ -46,7 +40,6 @@ func main() {
 	})
 	err = c.On("data", func(h *gosocketio.Channel, args Message) {
 		log.Println("--- Got chat message: ", args)
-
 	})
 	if err != nil {
 		log.Fatal(err)
