@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"runtime"
 	"time"
@@ -16,7 +17,9 @@ type Message struct {
 }
 
 func main() {
-
+	t := time.Now()
+	fmt.Printf("当前的时间是: %d-%d-%d %d:%d:%d\n", t.Year(),
+		t.Month(), t.Day(), t.Hour(), t.Minute(), t.Second())
 	runtime.GOMAXPROCS(runtime.NumCPU())
 
 	c, err := gosocketio.Dial(
@@ -25,8 +28,10 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-
 	err = c.On(gosocketio.OnDisconnection, func(h *gosocketio.Channel) {
+		t1 := time.Now()
+		fmt.Printf("当前的时间是: %d-%d-%d %d:%d:%d\n", t1.Year(),
+			t1.Month(), t1.Day(), t1.Hour(), t1.Minute(), t1.Second())
 		log.Fatal("Disconnected")
 	})
 	if err != nil {
