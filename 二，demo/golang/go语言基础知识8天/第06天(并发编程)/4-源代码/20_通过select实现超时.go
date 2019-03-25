@@ -23,12 +23,11 @@ func main() {
 
 	}() //别忘了()
 
-	for i := 0; i < 5; i++ {
-		ch <- i
-		time.Sleep(time.Second)
-	}
+	// for i := 0; i < 5; i++ {
+	// 	ch <- i
+	// 	time.Sleep(time.Second)
+	// }
 
 	<-quit
 	fmt.Println("程序结束")
-
 }
