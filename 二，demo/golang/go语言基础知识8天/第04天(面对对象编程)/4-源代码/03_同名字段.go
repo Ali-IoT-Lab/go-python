@@ -29,6 +29,6 @@ func main() {
 	//显式调用
 	s.Person.name = "yoyo" //Person的name
 
-	fmt.Printf("s = %+v\n", s)
+	fmt.Printf("s = %+v\n", s.Person)
 
 }
