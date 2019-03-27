@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/LightKool/socketio-client-go"
+	socketio "github.com/Ali-IoT-Lab/socketio-client-go"
 )
 
 func main() {
