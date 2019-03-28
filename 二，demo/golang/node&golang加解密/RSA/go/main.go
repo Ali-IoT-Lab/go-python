@@ -3,8 +3,9 @@ package main
 import (
 	"encoding/base64"
 	log "github.com/sirupsen/logrus"
-	"go-crypto/decrypt"
-	"go-crypto/encrypt"
+        "github.com/suihaohao/encrypt-and-decrypt-of-go-and-node/tree/master/RSA/go/go-crypto/decrypt"
+	"github.com/suihaohao/encrypt-and-decrypt-of-go-and-node/tree/master/RSA/go/go-crypto/encrypt"
+
 	"os"
 )
 
