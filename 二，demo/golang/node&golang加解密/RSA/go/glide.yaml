@@ -1,0 +1,14 @@
+package: .
+import:
+- package: github.com/sirupsen/logrus
+  version: ~1.4.0
+- package: github.com/suihaohao/encrypt-and-decrypt-of-go-and-node
+  subpackages:
+  - tree/master/RSA/go/go-crypto/decrypt
+  - tree/master/RSA/go/go-crypto/encrypt
+- package: golang.org/x/crypto
+  subpackage:
+  - ssh
+- package: golang.org/x/sys
+  subpackage:
+  - unix
