@@ -1,0 +1,10 @@
+package: test
+import:
+- package: github.com/sirupsen/logrus
+  version: ~1.4.0
+- package: golang.org/x/crypto
+  subpackage:
+  - ssh
+- package: golang.org/x/sys
+  subpackage:
+  - unix
