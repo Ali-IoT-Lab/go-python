@@ -7,6 +7,7 @@ import (
 //此通道只能写，不能读
 func producer(out chan<- int) {
 	for i := 0; i < 10; i++ {
+		fmt.Println("----------------------")
 		out <- i * i
 	}
 	close(out)

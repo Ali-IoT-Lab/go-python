@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"strings"
@@ -11,28 +12,42 @@ import (
 )
 
 func main() {
+
 	c := exec.Command("/bin/bash", "-l")
-	f, err := pty.Start(c)
-	c.Env = os.Environ()
-	c.Env = append(c.Env, "LANG=en_US.UTF-8", "LC_ALL=en_US.UTF-8")
-	if err != nil {
-		panic(err)
-	}
+	c.Env = append(os.Environ(), "TERM=xterm")
+	tty, _ := pty.Start(c)
+	sr := strings.NewReader("ls\n")
+
+	ch := make(chan int, 0)
 
 	go func() {
-		f.Write([]byte("l"))
-		f.Write([]byte("s"))
-		f.Write([]byte("\r"))
-		//f.Write([]byte{4}) // EOT
+		for {
+			read, _ := io.Copy(tty, sr)
+			if read > 0 {
+				ch <- 1
+				fmt.Println("1111111111111111111111111")
+				break
+			}
+		}
+	}()
+
+	go func() {
+		for {
+			select {
+			case <-ch:
+				time.Sleep(1 * time.Second)
+				buf := make([]byte, 1024)
+				tty.Read(buf)
+				fmt.Println("22222222222222222222222222")
+				fmt.Println(string(buf))
+			case <-time.After(2 * time.Second):
+				continue
+			}
+		}
 
 	}()
 
-	time.Sleep(2 * time.Second)
-	//var file *os.File
-	//io.Copy(file, f)
-	buf := make([]byte, 1024)
-	f.Read(buf)
-	var strf = string(buf)
-	var a = strings.Split(strf, "\n")
-	fmt.Println(a[2])
+	for {
+
+	}
 }

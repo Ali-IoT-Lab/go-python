@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"time"
 )
 
 func main() {
@@ -21,7 +20,7 @@ func main() {
 	}()
 
 	//延时
-	time.Sleep(2 * time.Second)
+	//time.Sleep(2 * time.Second)
 
 	for i := 0; i < 3; i++ {
 		num := <-ch //读管道中内容，没有内容前，阻塞
