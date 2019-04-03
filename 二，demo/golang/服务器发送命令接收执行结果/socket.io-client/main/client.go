@@ -6,6 +6,7 @@ import (
 	"crypto/cipher"
 	"crypto/md5"
 	"encoding/base64"
+	"encoding/json"
 	"flag"
 	"fmt"
 	"log"
@@ -90,6 +91,7 @@ func (wp *wsPty) Stop() {
 }
 
 var cmdFlag string
+var messageData interface{}
 
 func init() {
 	flag.StringVar(&cmdFlag, "cmd", "/bin/bash", "command to execute on slave side of the pty")
@@ -100,6 +102,7 @@ func main() {
 	wp := wsPty{}
 	wp.Start()
 
+	var conHd = make(map[string]*websocket.Conn)
 	var Header http.Header = map[string][]string{
 		"moja":     {"ccccc, asdasdasdasd"},
 		"terminal": {"en-esadasdasdwrw"},
@@ -110,15 +113,77 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	s.Connect(Header)
+	//s.Connect(Header)
+	//建立主连接
+	if atomic.CompareAndSwapUint32(&s.state, stateOpen, stateConnecting) {
+		conn, c, err := s.transprot.Dial(s.url.String(), Header)
+		connection = c
+		if err != nil {
+			s.emit(EventError, err)
+			go s.reconnect(stateConnecting, Header)
+			return
+		}
+		if atomic.CompareAndSwapUint32(&s.state, stateConnecting, stateReady) {
+			go s.start(conn, Header)
+			s.emit(EventConnect)
+		} else {
+			conn.Close()
+		}
+	}
+	//建立子连接
+	go func() {
+		for {
+			fmt.Println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+			//fmt.Printf("%T\n", messageData)
+			s, _ := ParseString(messageData)
+			in := []byte(s)
+			var raw = make(map[string]interface{})
+			json.Unmarshal(in, &raw)
+			fmt.Println(raw["subconn"])
+			if messageData == "subconn" {
+				sub, err := Socket("ws://127.0.0.1:3000?a=sub")
+				if err != nil {
+					panic(err)
+				}
+				if atomic.CompareAndSwapUint32(&sub.state, stateOpen, stateConnecting) {
+					subConn, c, err := sub.transprot.Dial(sub.url.String(), Header)
+					conHd["1"] = c
+					if err != nil {
+						sub.emit(EventError, err)
+						go sub.reconnect(stateConnecting, Header)
+						return
+					}
+					if atomic.CompareAndSwapUint32(&sub.state, stateConnecting, stateReady) {
+						go sub.start(subConn, Header)
+						sub.emit(EventConnect)
+					} else {
+						subConn.Close()
+					}
+				}
+
+				fmt.Println("pppppppppppppppppppppppppppp")
+				fmt.Println(conHd["1"])
+				sub.On("message", func(args ...interface{}) {
+					enResult, _ := ParseString(args[0])
+					messageData = DecryptWithAES("asdasdasdasdasd", enResult)
+					//fmt.Println(cmd)
+					//wp.Pty.Write([]byte(cmd))
+				})
+			} else if messageData == "cmd" {
+				fmt.Println("wqeqweqwqw")
+			} else {
+				//fmt.Println("qweqwe")
+			}
+		}
+	}()
 
 	s.Emit("messgae", "hello server!")
-	//handleWebsocket(connection)
+	//主连接接收消息类型
 	s.On("message", func(args ...interface{}) {
 		enResult, _ := ParseString(args[0])
-		cmd := DecryptWithAES("asdasdasdasdasd", enResult)
-		fmt.Println(cmd)
-		wp.Pty.Write([]byte(cmd))
+		messageData = DecryptWithAES("asdasdasdasdasd", enResult)
+		//fmt.Println(cmd)
+		//wp.Pty.Write([]byte(cmd))
 	})
 
 	go func() {
@@ -130,7 +195,6 @@ func main() {
 				log.Printf("Failed to read from pty master: %s", err)
 				return
 			}
-			fmt.Println(n)
 			out := make([]byte, base64.StdEncoding.EncodedLen(n))
 			base64.StdEncoding.Encode(out, resBuf[0:n])
 			s.Emit("result", string(resBuf[0:n]))
