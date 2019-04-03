@@ -133,6 +133,9 @@ func main() {
 	//建立子连接
 	go func() {
 		for {
+
+			//每次轮训需要判断连接句柄是否存在
+
 			fmt.Println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
 			//fmt.Printf("%T\n", messageData)
 			s, _ := ParseString(messageData)
