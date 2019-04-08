@@ -5,10 +5,15 @@ import (
 	"crypto/aes"
 	"crypto/cipher"
 	"crypto/md5"
+	"crypto/rand"
+	"crypto/rsa"
+	"crypto/sha1"
+	"crypto/x509"
 	"encoding/base64"
-	"encoding/json"
+	"encoding/pem"
 	"flag"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"math"
 	"net/http"
@@ -19,9 +24,10 @@ import (
 	"sync/atomic"
 	"time"
 
+	"remote-terminal-client/protocol"
+
 	"github.com/gorilla/websocket"
 	"github.com/kr/pty"
-	"socket.io-client/protocol"
 )
 
 const (
@@ -103,10 +109,13 @@ func main() {
 	wp.Start()
 
 	var conHd = make(map[string]*websocket.Conn)
+
+	fmt.Println(RsaEncrypt([]byte("aiyouwei")))
 	var Header http.Header = map[string][]string{
 		"moja":     {"ccccc, asdasdasdasd"},
 		"terminal": {"en-esadasdasdwrw"},
 		"success":  {"dasdadas", "wdsadaderew"},
+		"ticket":   {RsaEncrypt([]byte("aiyouwei"))},
 	}
 
 	s, err := Socket("ws://127.0.0.1:3000")
@@ -136,13 +145,13 @@ func main() {
 
 			//每次轮训需要判断连接句柄是否存在
 
-			fmt.Println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
-			//fmt.Printf("%T\n", messageData)
-			s, _ := ParseString(messageData)
-			in := []byte(s)
-			var raw = make(map[string]interface{})
-			json.Unmarshal(in, &raw)
-			fmt.Println(raw["subconn"])
+			//s, _ := ParseString(messageData)
+
+			//fmt.Println("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb")
+			// in := []byte(s)
+			// var raw = make(map[string]interface{})
+			// json.Unmarshal(in, &raw)
+			// fmt.Println(raw["subconn"])
 			if messageData == "subconn" {
 				sub, err := Socket("ws://127.0.0.1:3000?a=sub")
 				if err != nil {
@@ -175,12 +184,20 @@ func main() {
 			} else if messageData == "cmd" {
 				fmt.Println("wqeqweqwqw")
 			} else {
-				//fmt.Println("qweqwe")
+				//	fmt.Println("qweqwerrrrtytyyyqwwetrtyutuiop")
+				// decodeBytes, err := base64.StdEncoding.DecodeString(s)
+				// if err != nil {
+				// 	log.Fatalln(err)
+				// }
+				//	fmt.Println(string(decodeBytes))
 			}
 		}
 	}()
 
-	s.Emit("messgae", "hello server!")
+	input := []byte("testtttt")
+	// 演示base64编码
+	encodeString := base64.StdEncoding.EncodeToString(input)
+	s.Emit("messgae", encodeString)
 	//主连接接收消息类型
 	s.On("message", func(args ...interface{}) {
 		enResult, _ := ParseString(args[0])
@@ -461,4 +478,29 @@ func ParseString(value interface{}) (string, error) {
 	default:
 		return "", fmt.Errorf("unable to casting number %v (type %T)", value, value)
 	}
+}
+
+func RsaEncrypt(data []byte) string {
+	pubKey, err := ioutil.ReadFile("../public.pem")
+	if err != nil {
+		log.Fatal(err.Error())
+	}
+
+	block, _ := pem.Decode(pubKey) //将密钥解析成公钥实例
+	if block == nil {
+		fmt.Println("public key error")
+		return ""
+	}
+	pubInterface, err := x509.ParsePKIXPublicKey(block.Bytes) //解析pem.Decode（）返回的Block指针实例
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	pub := pubInterface.(*rsa.PublicKey)
+	res, err := rsa.EncryptOAEP(sha1.New(), rand.Reader, pub, data, nil)
+	if err != nil {
+		fmt.Println(err)
+		return ""
+	}
+	return base64.StdEncoding.EncodeToString(res)
 }

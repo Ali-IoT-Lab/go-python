@@ -1,0 +1,21 @@
+{
+  "name": "yanglao-server",
+  "version": "1.0.0",
+  "description": "测试主页： http://yanglao.moja-lab.com/screen 获取配置结果：http://yanglao.moja-lab.com/screen/get_status 本地视频测试： http://yanglao.moja-lab.com/screen/test_video",
+  "main": "env.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@code.aliyun.com:iot-lab/yanglao-server.git"
+  },
+  "dependencies": {
+    "socket.io": "^2.2.0",
+    "js-base64": "^2.5.1",
+    "stringbuffer": "^1.0.0"
+  },
+  "author": "",
+  "license": "ISC"
+}

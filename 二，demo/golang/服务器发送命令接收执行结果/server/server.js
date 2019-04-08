@@ -1,6 +1,8 @@
 'use strict'
 const Base64 = require('js-base64').Base64;
 const stringbuffer = require('stringbuffer');
+const fs = require('fs');
+const path = require('path');
 let app = require('http').createServer(handler)
 let io = require('socket.io')(app)
 
@@ -13,31 +15,38 @@ let iv = [0x00, 0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b
 
 console.log('Listening at http://localhost:3000/')
 
+
 function handler (req, res) {
   res.writeHead(200)
   res.end('Testing server for http://github.com/wedeploy/gosocketio example.')
 }
+
 io.on('connection', function (socket) {
-  console.log('Connecting %s.', socket.id)
-  console.log(socket.request.headers)
+  // console.log('Connecting %s.', socket.id)
+ // console.log(socket.request.headers)
   //socket.emit("/message", "{10, \"main\", \"using emit\"}")
+
+  var head = socket.request.headers
+  console.log(head.ticket)
+  const privateKey = fs.readFileSync(path.join(__dirname, "./private.pem"), "utf8");
+  var plainText = crypto.privateDecrypt(privateKey, Buffer.from(head.ticket, "base64")).toString("utf8");
+  console.log(" ----------------------client encode string-----------------------------");
+  console.log(plainText);
+
   socket.on('messgae', (location) => {
     // fail booking 50% of the requests
 
-
-    const t = Buffer.from('t');
-    console.log(t.toString('base64'));
-    const o = Buffer.from('o')
-    console.log(t.toString('base64'));
-    const p = Buffer.from('p')
-    console.log(p.toString('base64'));
-    const n = Buffer.from('\n')
-    console.log(n.toString('base64'));
-    console.log('client message!----------------------------------------------')
-    console.log(t.toString('base64').length)
-    console.log(o.toString('base64'))
-    console.log(p.toString('base64'))
-    console.log(n.toString('base64'))
+    // const o = Buffer.from('o')
+    // console.log(t.toString('base64'));
+    // const p = Buffer.from('p')
+    // console.log(p.toString('base64'));
+    // const n = Buffer.from('\n')
+    // console.log(n.toString('base64'));
+    // console.log('client message!----------------------------------------------')
+    // console.log(t.toString('base64').length)
+    // console.log(o.toString('base64'))
+    // console.log(p.toString('base64'))
+    // console.log(n.toString('base64'))
 
     // socket.binaryType = 'arraybuffer'
     // var buf = new ArrayBuffer(4)
@@ -48,10 +57,25 @@ io.on('connection', function (socket) {
     // bufView[3] = '\n';
 
     //socket.send(sbb.append("top"))
-    socket.send(encrypt_with_aes("asdasdasdasdasd","t"))
-    socket.send(encrypt_with_aes("asdasdasdasdasd","o"))
-    socket.send(encrypt_with_aes("asdasdasdasdasd","p"))
-    socket.send(encrypt_with_aes("asdasdasdasdasd","\n"))
+
+    // socket.send(encrypt_with_aes("asdasdasdasdasd","t"))
+    // socket.send(encrypt_with_aes("asdasdasdasdasd","o"))
+    // socket.send(encrypt_with_aes("asdasdasdasdasd","p"))
+    // socket.send(encrypt_with_aes("asdasdasdasdasd","\n"))
+
+    // console.log("kkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk")
+    // console.log(location)
+    //
+    //
+    //
+    // console.log("99923456789087654323456789")
+    // console.log(Base64.decode(location))
+
+    const t = Buffer.from('testtttt');
+    //console.log(t.toString('base64'));
+
+    socket.send(encrypt_with_aes("asdasdasdasdasd",t.toString('base64')))
+
    // socket.send("s")
    //  socket.send("\n")
 
@@ -101,7 +125,7 @@ function encrypt_with_aes(key, message) {
   // cipher.setAutoPadding(true);
   var encrypted = cipher.update(message, 'utf8', 'base64');
   encrypted += cipher.final('base64');
-  console.log('encode message: ' + encrypted);
+  //console.log('encode message: ' + encrypted);
   return encrypted;
 }
 
